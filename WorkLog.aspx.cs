@@ -10,6 +10,7 @@ using NPOI.XWPF.UserModel;
 using System.IO;
 using System.Web.UI;
 using System.Linq;
+using System.Net;
 
 namespace Notes
 {
@@ -19,19 +20,16 @@ namespace Notes
         private Users users;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["user"] == null)
+                Response.Redirect("/Login");
             if (!IsPostBack)
             {
                 try
                 {
-                    if (Session["user"] == null)
-                        Response.Redirect("/Login");
-                    else
-                    {
-                        users = ((List<Users>)Session["user"])[0];
-                        SqlDataSource1.SelectCommand = string.Format("Select * From WorkLog Where IsDeleted = 0 and UserId = {0} and CreateDate = convert(varchar, getdate(), 111)", users.Id);
-                        gv.DataSourceID = "SqlDataSource1";
-                        gv.DataBind();
-                    }
+                    users = ((List<Users>)Session["user"])[0];
+                    SqlDataSource1.SelectCommand = string.Format("Select * From WorkLog Where IsDeleted = 0 and UserId = {0} and CreateDate = convert(varchar, getdate(), 111)", users.Id);
+                    gv.DataSourceID = "SqlDataSource1";
+                    gv.DataBind();
                 }
                 catch
                 {
@@ -61,13 +59,13 @@ namespace Notes
             users = ((List<Users>)Session["user"])[0];
             if (string.IsNullOrEmpty(hd_id.Value))
             {
-                sqlStr = @"Insert Into WorkLog(UserId,UserName,OrgId,OrgName,Name,Question,DealWithId,DealWithName,DealWith,Remark)
-                                Values(@UserId,@UserName,@OrgId,@OrgName,@Name,@Question,@DealWithId,@DealWithName,@DealWith,@Remark)";
+                sqlStr = @"Insert Into WorkLog(UserId,UserName,OrgId,OrgName,Name,Question,DealWithId,DealWithName,DealWith,RemarkId,Remark)
+                                Values(@UserId,@UserName,@OrgId,@OrgName,@Name,@Question,@DealWithId,@DealWithName,@DealWith,@RemarkId,@Remark)";
             }
             else
             {
                 sqlStr = @"Update WorkLog set OrgId=@OrgId, OrgName=@OrgName, Name=@Name, Question=@Question,
-                            DealWithId=@DealWithId, DealWithName=@DealWithName, DealWith=@DealWith, Remark=@Remark, UpdateDate=getdate()
+                            DealWithId=@DealWithId, DealWithName=@DealWithName, DealWith=@DealWith, RemarkId=@RemarkId, Remark=@Remark, UpdateDate=getdate()
                             Where Id=@Id";
             }
             WorkLogs workLogs = new WorkLogs
@@ -82,7 +80,8 @@ namespace Notes
                 DealWithId = int.Parse(ddlDealwith.SelectedItem.Value),
                 DealWithName = ddlDealwith.SelectedItem.Text,
                 DealWith = txtDealwith.Text,
-                Remark = txtRemark.Text
+                RemarkId = int.Parse(ddlRemark.SelectedItem.Value),
+                Remark = ddlRemark.SelectedItem.Text
             };
             using (var conn = new SqlConnection(connectionString))
             {
@@ -106,6 +105,7 @@ namespace Notes
                         Tbody = txtQuestion.Text.Trim(),
                         UserId = users.Id
                     });
+                    ScriptManager.RegisterClientScriptBlock(this, GetType(), "saveTemplate", "$('#template').bootstrapTable('refresh');", true);
                 }
             }
             Reset();
@@ -128,7 +128,7 @@ namespace Notes
             txtQuestion.Text = "";
             chkQuestion.Checked = false;
             txtDealwith.Text = "";
-            txtRemark.Text = "";
+            ddlRemark.ClearSelection();
             ddlOrg.ClearSelection();
             ddlDealwith.ClearSelection();
         }
@@ -148,7 +148,7 @@ namespace Notes
             txtQuestion.Text = row.Cells[5].Text.Trim();
             ddlDealwith.SelectedValue = row.Cells[6].Text.Trim();
             txtDealwith.Text = row.Cells[8].Text.Trim();
-            txtRemark.Text = row.Cells[9].Text.Trim().Replace("&nbsp;","");
+            ddlRemark.SelectedValue = row.Cells[9].Text.Trim();
         }
 
         protected void gv_RowCreated(object sender, GridViewRowEventArgs e)
@@ -159,6 +159,7 @@ namespace Notes
                 e.Row.Cells[1].Visible = false;
                 e.Row.Cells[2].Visible = false;
                 e.Row.Cells[6].Visible = false;
+                e.Row.Cells[9].Visible = false;
             }
         }
 
@@ -396,16 +397,27 @@ namespace Notes
                         }
                     }
 
-                    DirectoryInfo info = new DirectoryInfo(@"c:\\tmp");
+                    DirectoryInfo info = new DirectoryInfo(Server.MapPath("~/tmp"));
                     if (!info.Exists)
                         info.Create();
-                    FileStream output = new FileStream(@"c:\\tmp\\工程人員日報表"+DateTime.Now.ToString("MM月dd日")+".docx", FileMode.Create);
+                    FileStream output = new FileStream(Server.MapPath("~/tmp") + "/工程人員日報表" +DateTime.Now.ToString("MM月dd日")+".docx", FileMode.Create);
 
                     doc.Write(output);
                     output.Close();
                     output.Dispose();
+                    string url = string.Format("{0}/tmp/工程人員日報表{1}.docx", ConfigurationManager.AppSettings["BaseUrl"], DateTime.Now.ToString("MM月dd日"));
 
-                    ScriptManager.RegisterClientScriptBlock(this, GetType(),"alertMessage", @"alert('列印完成!請至C:\\tmp資料夾下讀取檔案!')", true);
+                    using (WebClient wc = new WebClient())
+                    {
+                        wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
+                        wc.DownloadFileAsync(
+                            // Param1 = Link of file
+                            new System.Uri(url),
+                            // Param2 = Path to save
+                            "工程人員日報表" + DateTime.Now.ToString("MM月dd日") + ".docx"
+                        );
+                    }
+                    ScriptManager.RegisterClientScriptBlock(this, GetType(),"download", string.Format("window.location.href='{0}';", url), true);
                 }
             }
             catch (Exception ex)
@@ -413,7 +425,12 @@ namespace Notes
                 throw new Exception(ex.Message);
             }
         }
-    
+
+        private void Wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, GetType(), "progressBar", string.Format("$('#MainContent_progressBar').addClass('w-{0}');", e.ProgressPercentage.ToString()), true);
+        }
+
         private string transWeek(string w)
         {
             string retvalue = "";

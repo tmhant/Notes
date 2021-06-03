@@ -14,8 +14,8 @@
                         <label for="ddlOrg">　|　日期：</label>
                         <asp:TextBox ID="txtSdate" runat="server" TextMode="Date">日期起</asp:TextBox>~
                         <asp:TextBox ID="txtEdate" runat="server" TextMode="Date">日期迄</asp:TextBox>
-                        <asp:Button ID="btnQuery" CssClass="btn btn-info" runat="server" Text="查詢" OnClick="btnQuery_Click" />
-                        <asp:Button ID="btnReset" CssClass="btn btn-warning" runat="server" Text="取消" OnClick="btnReset_Click" />
+                        <asp:LinkButton ID="btnQuery" CssClass="btn btn-info bi-search" runat="server" Text="查詢" OnClick="btnQuery_Click" />
+                        <asp:LinkButton ID="btnReset" CssClass="btn btn-warning bi-arrow-counterclockwise" runat="server" Text="取消" OnClick="btnReset_Click" />
                     </div>
                 </div>
                 <hr />

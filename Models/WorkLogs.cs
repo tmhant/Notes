@@ -17,6 +17,7 @@ namespace Notes.Models
         public int DealWithId { get; set; }
         public string DealWithName { get; set; }
         public string DealWith { get; set; }
+        public int RemarkId { get; set; }
         public string Remark { get; set; }
         public bool IsDeleted { get; set; }
     }

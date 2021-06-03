@@ -18,9 +18,9 @@
                 密碼 :
             <asp:TextBox TextMode="Password" ID="password" runat="server" ValidationGroup="login"></asp:TextBox>
             </p>
-            <asp:Button ID="btnLogin" runat="server" class="btn btn-large btn-primary" Text="登入" OnClick="btnLogin_Click" ValidationGroup="login" />
-            <asp:Button ID="btnReset" runat="server" class="btn btn-large btn-info" Text="重置" OnClick="btnReset_Click" />
-            <a href="/Register">註冊</a>
+            <asp:LinkButton  ID="btnLogin" runat="server" CssClass="btn btn-large btn-primary bi-check-lg" Text="登入" OnClick="btnLogin_Click" ValidationGroup="login" />
+            <asp:LinkButton ID="btnReset" runat="server" class="btn btn-large btn-info bi-arrow-clockwise" Text="重置" OnClick="btnReset_Click" />
+            <a href="/Register"><span class="bi-brush-fill" role="img" aria-label="register">註冊</span></a>
 
         </div>
     </div>

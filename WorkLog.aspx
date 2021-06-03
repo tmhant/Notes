@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WorkLog.aspx.cs" Inherits="Notes.WorkLog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WorkLog.aspx.cs" Inherits="Notes.WorkLog" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <!-- Modal -->
@@ -8,6 +8,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">問題範例</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="bi-x" role="img" aria-label="fill"></i>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -19,16 +20,20 @@
                     </div>
                     <div class="row">
                         <div class="col-3 text-right">
-                            <input type="button" id="fill" class="btn btn-info btn-sm" value="帶入" data-dismiss="modal" />
+                            <button type="button" id="fill" class="btn btn-info btn-sm" value="帶入" data-dismiss="modal" />
+                            <i class="bi-arrow-90deg-down" role="img" aria-label="fill">帶入</i>
                         </div>
                         <div class="col-3 text-right">
-                            <input type="button" id="save" class="btn btn-primary btn-sm" value="儲存" />
+                            <button type="button" id="save" class="btn btn-primary btn-sm" value="儲存" />
+                            <i class="bi-check-lg" role="img" aria-label="save">儲存</i>
                         </div>
                         <div class="col-3 text-center">
-                            <input type="button" id="delete" class="btn btn-warning btn-sm" value="刪除" />
+                            <button type="button" id="delete" class="btn btn-warning btn-sm" value="刪除" />
+                            <i class="bi-trash" role="img" aria-label="delete">刪除</i>
                         </div>
                         <div class="col-3 text-left">
-                            <input type="button" id="reset" class="btn btn-secondary btn-sm" data-dismiss="modal" value="取消" />
+                            <button type="button" id="reset" class="btn btn-secondary btn-sm" value="取消" data-dismiss="modal" />
+                            <i class="bi-arrow-counterclockwise" role="img" aria-label="reset">取消</i>
                         </div>
                     </div>
                     <table id="template" class="table table-striped table-editable">
@@ -50,11 +55,11 @@
             <div class="container-fluid">
                 <div class="row text-right">
                     <div class="col">
-                        <asp:Button ID="btnNew" CssClass="btn btn-success" runat="server" Text="新增" OnClick="btnNew_Click" />
-                        <asp:Button ID="btnSave" CssClass="btn btn-primary" runat="server" Text="儲存" OnClick="btnSave_Click" Visible="false" />
-                        <asp:Button ID="btnDelete" CssClass="btn btn-danger" runat="server" Text="刪除" OnClientClick="confirmMsg()" Visible="false" />
-                        <asp:Button ID="btnReset" CssClass="btn btn-warning" runat="server" Text="取消" OnClick="btnReset_Click" Visible="false" />
-                        <asp:Button ID="btnPrint" CssClass="btn btn-info" runat="server" Text="列印" OnClick="btnPrint_Click" />
+                        <asp:LinkButton ID="btnNew" CssClass="btn btn-success bi-plus-circle" runat="server" Text="新增" OnClick="btnNew_Click" />
+                        <asp:LinkButton ID="btnSave" CssClass="btn btn-primary bi-check-lg" runat="server" Text="儲存" OnClick="btnSave_Click" Visible="false" />
+                        <asp:LinkButton ID="btnDelete" CssClass="btn btn-danger bi-trash" runat="server" Text="刪除" OnClientClick="confirmMsg()" Visible="false" />
+                        <asp:LinkButton ID="btnReset" CssClass="btn btn-warning bi-arrow-counterclockwise" runat="server" Text="取消" OnClick="btnReset_Click" Visible="false" />
+                        <asp:LinkButton ID="btnPrint" CssClass="btn btn-info bi-printer" runat="server" Text="列印" OnClick="btnPrint_Click" />
                     </div>
                 </div>
                 <div class="row">
@@ -76,7 +81,7 @@
                                     <div class="col-12">
                                         <label for="txtName">問題：</label>
                                         <button type="button" id="qtemplate" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#questionModal">
-                                          範本
+                                          <span class="bi-layout-text-sidebar-reverse" role="img" aria-label="qtemplate"> 範本</span>
                                         </button>
                                     </div>
                                     <div class="col-10">
@@ -90,7 +95,7 @@
                                     <div class="col-12">
                                         <label for="txtName">處理情形：</label>
                                         <asp:DropDownList ID="ddlDealwith" runat="server" DataSourceID="SqlDataSource3" DataTextField="Name" DataValueField="Id"></asp:DropDownList>
-                                        <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [DealWith]"></asp:SqlDataSource>
+                                        <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [ValueSet] Where Catalog = 1"></asp:SqlDataSource>
                                     </div>
                                     <div class="col-12">
                                         <asp:TextBox ID="txtDealwith" runat="server" TextMode="MultiLine" Rows="3" Width="100%"></asp:TextBox>
@@ -99,9 +104,8 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label for="txtName">備註：</label>
-                                    </div>
-                                    <div class="col-12">
-                                        <asp:TextBox ID="txtRemark" runat="server" TextMode="MultiLine" Rows="3" Width="100%"></asp:TextBox>
+                                        <asp:DropDownList ID="ddlRemark" runat="server" DataSourceID="SqlDataSource4" DataTextField="Name" DataValueField="Id"></asp:DropDownList>
+                                        <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [ValueSet] Where Catalog = 2"></asp:SqlDataSource>
                                     </div>
                                 </div>
                             </div>
@@ -141,8 +145,9 @@
                                 <asp:BoundField DataField="DealWith" HeaderText="處理情形" SortExpression="DealWith">
                                     <HeaderStyle Width="25%" />
                                 </asp:BoundField>
+                                <asp:BoundField DataField="RemarkId" HeaderText="RemarkId" SortExpression="RemarkId" />
                                 <asp:BoundField DataField="Remark" HeaderText="備註" SortExpression="Remark">
-                                    <HeaderStyle Width="15%" />
+                                    <HeaderStyle Width="10%" />
                                 </asp:BoundField>
                                 <asp:BoundField DataField="CreateDate" HeaderText="建立日期" SortExpression="CreateDate" DataFormatString="{0:d}">
                                     <HeaderStyle Width="10%" />
@@ -171,6 +176,9 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+    <div class="progress">
+      <div runat="server" id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
     <script type="text/javascript">
         function confirmMsg() {
             if (confirm("確定要刪除嗎?")) {
@@ -287,5 +295,22 @@
             $('#tbody').val('');
             $('#template tr').removeClass('bg-info');
         });
+
+        function download(file) {
+                if (window.navigator.msSaveBlob) {
+                    var oPop = window.open(file, "", "width=1, height=1, top=5000, left=5000");
+                    for (; oPop.document.readyState != "complete";) {
+                        if (oPop.document.readyState == "complete") break;
+                    }
+                    oPop.document.execCommand("SaveAs");
+                    oPop.close();
+                }
+                else {
+                    var a = document.createElement("a");
+                    a.href = file;
+                    a.setAttribute("download", file);
+                    a.click();
+                }
+        }
     </script>
 </asp:Content>
