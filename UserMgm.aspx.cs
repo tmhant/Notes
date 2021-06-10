@@ -27,6 +27,7 @@ namespace Notes
                     SqlDataSource1.SelectCommand = users.username == "admin" ? string.Format("Select * From Users Where IsDeleted = 0") : string.Format("Select * From Users Where IsDeleted = 0 and Id={0}", users.Id);
                     gv.DataSourceID = "SqlDataSource1";
                     gv.DataBind();
+                    btnNew.Visible = users.username == "admin" ? true : false;
                 }
             }
         }
@@ -44,7 +45,7 @@ namespace Notes
         protected void btnSave_Click(object sender, EventArgs e)
         {
             Pop.Visible = false;
-            btnNew.Visible = true;
+            btnNew.Visible = users.username == "admin" ? true : false;
             btnSave.Visible = false;
             btnReset.Visible = false;
             btnDelete.Visible = false;
@@ -96,7 +97,7 @@ namespace Notes
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             Pop.Visible = false;
-            btnNew.Visible = true;
+            btnNew.Visible = users.username == "admin" ? true : false;
             btnSave.Visible = false;
             btnReset.Visible = false;
             btnDelete.Visible = false;
@@ -105,7 +106,7 @@ namespace Notes
         protected void btnReset_Click(object sender, EventArgs e)
         {
             Pop.Visible = false;
-            btnNew.Visible = true;
+            btnNew.Visible = users.username == "admin" ? true : false;
             btnSave.Visible = false;
             btnReset.Visible = false;
             btnDelete.Visible = false;

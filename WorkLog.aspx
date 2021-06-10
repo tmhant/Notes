@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WorkLog.aspx.cs" Inherits="Notes.WorkLog" Async="true" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <!-- Modal -->
@@ -75,6 +76,15 @@
                                         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [Org]"></asp:SqlDataSource>
                                         <label for="txtName">名稱：</label>
                                         <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+                                        <asp:AutoCompleteExtender
+                                                ID="AutoCompleteExtender1"
+                                                runat="server"
+                                                MinimumPrefixLength="1"
+                                                TargetControlID="txtName"
+                                                ServiceMethod="GetCompletionList"
+                                                ServicePath="WebService/WebService.asmx"
+                                                CompletionSetCount="15" 
+                                        />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -176,9 +186,6 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
-    <div class="progress">
-      <div runat="server" id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
     <script type="text/javascript">
         function confirmMsg() {
             if (confirm("確定要刪除嗎?")) {
@@ -295,22 +302,5 @@
             $('#tbody').val('');
             $('#template tr').removeClass('bg-info');
         });
-
-        function download(file) {
-                if (window.navigator.msSaveBlob) {
-                    var oPop = window.open(file, "", "width=1, height=1, top=5000, left=5000");
-                    for (; oPop.document.readyState != "complete";) {
-                        if (oPop.document.readyState == "complete") break;
-                    }
-                    oPop.document.execCommand("SaveAs");
-                    oPop.close();
-                }
-                else {
-                    var a = document.createElement("a");
-                    a.href = file;
-                    a.setAttribute("download", file);
-                    a.click();
-                }
-        }
     </script>
 </asp:Content>

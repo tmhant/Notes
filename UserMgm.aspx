@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row text-right">
                     <div class="col">
-                        <asp:LinkButton ID="btnNew" CssClass="btn btn-success bi-plus-circle" runat="server" Text="新增" OnClick="btnNew_Click" />
+                        <asp:LinkButton ID="btnNew" CssClass="btn btn-success bi-plus-circle" runat="server" Text="新增" OnClick="btnNew_Click" Visible="false" />
                         <asp:LinkButton ID="btnSave" CssClass="btn btn-primary bi-check-lg" runat="server" Text="儲存" OnClick="btnSave_Click" Visible="false" />
                         <asp:LinkButton ID="btnDelete" CssClass="btn btn-danger bi-trash" runat="server" Text="刪除" OnClientClick="confirmMsg()" Visible="false" />
                         <asp:LinkButton ID="btnReset" CssClass="btn btn-warning bi-arrow-counterclockwise" runat="server" Text="取消" OnClick="btnReset_Click" Visible="false" />

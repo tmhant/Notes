@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WorkLogMgm.aspx.cs" Inherits="Notes.WorkLogMgm" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -8,25 +10,46 @@
                         <label for="ddlUser">操作員：</label>
                         <asp:DropDownList ID="ddlUser" runat="server" DataSourceID="SqlDataSource3" DataTextField="firstName" DataValueField="Id"></asp:DropDownList>
                         <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [Users]"></asp:SqlDataSource>
+                        <label for="txtName">　|　名稱：</label>
+                        <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+                        <asp:AutoCompleteExtender
+                            ID="AutoCompleteExtender1"
+                            runat="server"
+                            MinimumPrefixLength="1"
+                            TargetControlID="txtName"
+                            ServiceMethod="GetCompletionList"
+                            ServicePath="WebService/WebService.asmx"
+                            CompletionSetCount="15" 
+                        />
                         <label for="ddlOrg">　|　單位：</label>
                         <asp:DropDownList ID="ddlOrg" runat="server" DataSourceID="SqlDataSource2" DataTextField="OrgName" DataValueField="Id"></asp:DropDownList>
                         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [Org]"></asp:SqlDataSource>
                         <label for="ddlOrg">　|　日期：</label>
-                        <asp:TextBox ID="txtSdate" runat="server" TextMode="Date">日期起</asp:TextBox>~
-                        <asp:TextBox ID="txtEdate" runat="server" TextMode="Date">日期迄</asp:TextBox>
+                        <asp:TextBox ID="txtSdate" runat="server" TextMode="Date"></asp:TextBox>~
+                        <asp:TextBox ID="txtEdate" runat="server" TextMode="Date"></asp:TextBox>
                         <asp:LinkButton ID="btnQuery" CssClass="btn btn-info bi-search" runat="server" Text="查詢" OnClick="btnQuery_Click" />
                         <asp:LinkButton ID="btnReset" CssClass="btn btn-warning bi-arrow-counterclockwise" runat="server" Text="取消" OnClick="btnReset_Click" />
                     </div>
                 </div>
                 <hr />
+            <div class="text-right">
+                <label for="ddlPageSize">每頁顯示筆數：</label>
+                <asp:DropDownList ID="ddlPageSize" runat="server" OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
+                    <asp:ListItem>10</asp:ListItem>
+                    <asp:ListItem Selected="True">20</asp:ListItem>
+                    <asp:ListItem>30</asp:ListItem>
+                    <asp:ListItem>50</asp:ListItem>
+                    <asp:ListItem>40</asp:ListItem>
+                </asp:DropDownList>
+            </div> 
                 <div class="row">
                     <div class="col">
-                        <asp:GridView ID="gv" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSource1" CellPadding="4" ForeColor="#333333" GridLines="None" EmptyDataText="目前尚無資料" ShowHeaderWhenEmpty="True" Width="100%" OnRowCreated="gv_RowCreated" HeaderStyle-Height="30" RowStyle-Height="30" PageSize="20">
+                        <asp:GridView ID="gv" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="Id" DataSourceID="SqlDataSource1" CellPadding="4" ForeColor="#333333" GridLines="None" EmptyDataText="目前尚無資料" ShowHeaderWhenEmpty="True" Width="100%" OnRowCreated="gv_RowCreated" HeaderStyle-Height="30" RowStyle-Height="30" PageSize="20" OnPageIndexChanged="gv_PageIndexChanged">
                             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                             <Columns>
                                 <asp:TemplateField HeaderText="序　號" HeaderStyle-Width="4%">
                                     <ItemTemplate>
-                                        <%#Container.DisplayIndex + 1%>
+                                        <%#Container.DisplayIndex + (gv.PageIndex * gv.PageSize) + 1%>
                                     </ItemTemplate>
                                     <HeaderStyle Wrap="False" HorizontalAlign="Center" />
                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
@@ -78,7 +101,8 @@
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [WorkLog]"></asp:SqlDataSource>
                     </div>
                 </div>
-            </div>
+
+       
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

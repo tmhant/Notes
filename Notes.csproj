@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="AspNet.ScriptManager.bootstrap, Version=4.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AspNet.ScriptManager.bootstrap.4.6.0\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
     </Reference>
@@ -1632,6 +1635,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Template.aspx" />
     <Content Include="UserMgm.aspx" />
+    <Content Include="WebService\WebService.asmx" />
     <Content Include="WorkLog.aspx" />
     <Content Include="Controller\WorkLogController.ashx" />
     <Content Include="Controller\UserController.ashx" />
@@ -1648,6 +1652,9 @@
     <Content Include="font\bootstrap-icons.json" />
     <Content Include="font\fonts\bootstrap-icons.woff" />
     <Content Include="font\fonts\bootstrap-icons.woff2" />
+    <Content Include="Controller\OrgController.ashx" />
+    <Content Include="Controller\CounterController.ashx" />
+    <Content Include="Controller\OrgCounterController.ashx" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1703,6 +1710,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Web.sitemap" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1720,6 +1728,15 @@
     </Compile>
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\CounterController.ashx.cs">
+      <DependentUpon>CounterController.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\OrgController.ashx.cs">
+      <DependentUpon>OrgController.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\OrgCounterController.ashx.cs">
+      <DependentUpon>OrgCounterController.ashx</DependentUpon>
     </Compile>
     <Compile Include="Controller\PageController.ashx.cs">
       <DependentUpon>PageController.ashx</DependentUpon>
@@ -1751,6 +1768,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Orgs.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\WorkLogs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1803,6 +1821,10 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WebService\WebService.asmx.cs">
+      <DependentUpon>WebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WorkLog.aspx.cs">
       <DependentUpon>WorkLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1818,10 +1840,7 @@
       <DependentUpon>WorkLogMgm.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Code\" />
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />

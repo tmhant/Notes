@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
+using System.Data;
 
 namespace Notes
 {
@@ -23,10 +24,16 @@ namespace Notes
                         Response.Redirect("/Login");
                     else
                     {
-                        users = ((List<Users>)Session["user"])[0];
-                        SqlDataSource1.SelectCommand = string.Format("Select * From WorkLog Where UserId = {0} and CreateDate = convert(varchar, getdate(), 111)", users.Id);
-                        gv.DataSourceID = "SqlDataSource1";
-                        gv.DataBind();
+                        Query();
+                        if (users.username != "admin")
+                        {
+                            SqlDataSource3.SelectCommand = string.Format("Select * From Users Where Id={0}", users.Id);
+                            ddlUser.DataSourceID = "SqlDataSource3";
+                            ddlUser.DataBind();
+                            SqlDataSource1.SelectCommand = string.Format("Select * From WorkLog Where UserId={0}", users.Id);
+                            gv.DataSourceID = "SqlDataSource1";
+                            gv.DataBind();
+                        }
                     }
                 }
                 catch
@@ -50,15 +57,22 @@ namespace Notes
 
         protected void btnQuery_Click(object sender, EventArgs e)
         {
+            Query();
+        }
+
+        private void Query()
+        {
             try
             {
                 users = ((List<Users>)Session["user"])[0];
                 using (var conn = new SqlConnection(connectionString))
                 {
                     SqlDataSource1.SelectCommand = "Select * From WorkLog Where IsDeleted = 0";
-                    if (ddlUser.SelectedItem.Value != "1")
+                    if (ddlUser.SelectedItem != null && ddlUser.SelectedItem.Value != "1")
                         SqlDataSource1.SelectCommand += " And UserId = " + ddlUser.SelectedItem.Value;
-                    if (ddlOrg.SelectedItem.Value != "0")
+                    if (!string.IsNullOrEmpty(txtName.Text))
+                        SqlDataSource1.SelectCommand += " And Name = '" + txtName.Text.Trim() + "'";
+                    if (ddlOrg.SelectedItem != null && ddlOrg.SelectedItem.Value != "0")
                         SqlDataSource1.SelectCommand += " And OrgId = " + ddlOrg.SelectedItem.Value;
                     if (!string.IsNullOrEmpty(txtSdate.Text))
                         SqlDataSource1.SelectCommand += " And CreateDate >= convert(varchar, '" + txtSdate.Text + "', 111)";
@@ -68,7 +82,7 @@ namespace Notes
                     gv.DataBind();
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 Response.Redirect("/Login");
             }
@@ -78,8 +92,20 @@ namespace Notes
         {
             ddlUser.ClearSelection();
             ddlOrg.ClearSelection();
+            txtName.Text = "";
             txtSdate.Text = "";
             txtEdate.Text = "";
+        }
+
+        protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = (DropDownList)sender;
+            gv.PageSize = int.Parse(ddl.SelectedItem.Value);
+        }
+
+        protected void gv_PageIndexChanged(object sender, EventArgs e)
+        {
+            Query();
         }
     }
 }

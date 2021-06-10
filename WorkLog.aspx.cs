@@ -11,11 +11,12 @@ using System.IO;
 using System.Web.UI;
 using System.Linq;
 using System.Net;
+using System.Text;
 
 namespace Notes
 {
     public partial class WorkLog : System.Web.UI.Page
-    {
+    { 
         string connectionString = ConfigurationManager.ConnectionStrings["ConnStr"].ToString();
         private Users users;
         protected void Page_Load(object sender, EventArgs e)
@@ -170,10 +171,11 @@ namespace Notes
                 string Org0 = "", Org1 ="", Org2 = "", Org3 = "", Org4 = "", Org5 = "", Org6 = "", Org7 = "", Org8 = "", Org9 = "";
                 string Name0 = "", Name1 = "", Name2 = "", Name3 = "", Name4 = "", Name5 = "", Name6 = "", Name7 = "", Name8 = "", Name9 = "";
                 string Q0 = "", Q1 = "", Q2 = "", Q3 = "", Q4 = "", Q5 = "", Q6 = "", Q7 = "", Q8 = "", Q9 = "";
+                string C0 = "", C1 = "", C2 = "", C3 = "", C4 = "", C5 = "", C6 = "", C7 = "", C8 = "", C9 = "";
                 string D0 = "", D1 = "", D2 = "", D3 = "", D4 = "", D5 = "", D6 = "", D7 = "", D8 = "", D9 = "";
                 string R0 = "", R1 = "", R2 = "", R3 = "", R4 = "", R5 = "", R6 = "", R7 = "", R8 = "", R9 = "";
                 users = ((List<Users>)Session["user"])[0];
-                string strSql = string.Format("Select Id, UserId, UserName, OrgId, OrgName, Name, Question, DealWithName, DealWith, Remark, IsDeleted From WorkLog Where UserId = {0} and CreateDate = convert(varchar, getdate(), 111)", users.Id);
+                string strSql = string.Format("Select Id, UserId, UserName, OrgId, OrgName, Name, Question, DealWithName, DealWith, Remark, IsDeleted From WorkLog Where UserId = {0} and IsDeleted = 0 and CreateDate = convert(varchar, getdate(), 111)", users.Id);
                 using (var conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
@@ -191,6 +193,7 @@ namespace Notes
                                 Org0 = item.OrgName;
                                 Name0 = item.Name;
                                 Q0 = item.Question;
+                                C0 = item.DealWithName;
                                 D0 = item.DealWith;
                                 R0 = item.Remark;
                                 break;
@@ -198,6 +201,7 @@ namespace Notes
                                 Org1 = item.OrgName;
                                 Name1 = item.Name;
                                 Q1 = item.Question;
+                                C1 = item.DealWithName;
                                 D1 = item.DealWith;
                                 R1 = item.Remark;
                                 break;
@@ -205,6 +209,7 @@ namespace Notes
                                 Org2 = item.OrgName;
                                 Name2 = item.Name;
                                 Q2 = item.Question;
+                                C2 = item.DealWithName;
                                 D2 = item.DealWith;
                                 R2 = item.Remark;
                                 break;
@@ -212,6 +217,7 @@ namespace Notes
                                 Org3 = item.OrgName;
                                 Name3 = item.Name;
                                 Q3 = item.Question;
+                                C3 = item.DealWithName;
                                 D3 = item.DealWith;
                                 R3 = item.Remark;
                                 break;
@@ -219,6 +225,7 @@ namespace Notes
                                 Org4 = item.OrgName;
                                 Name4 = item.Name;
                                 Q4 = item.Question;
+                                C4 = item.DealWithName;
                                 D4 = item.DealWith;
                                 R4 = item.Remark;
                                 break;
@@ -226,6 +233,7 @@ namespace Notes
                                 Org5 = item.OrgName;
                                 Name5 = item.Name;
                                 Q5 = item.Question;
+                                C5 = item.DealWithName;
                                 D5 = item.DealWith;
                                 R5 = item.Remark;
                                 break;
@@ -233,6 +241,7 @@ namespace Notes
                                 Org6 = item.OrgName;
                                 Name6 = item.Name;
                                 Q6 = item.Question;
+                                C6 = item.DealWithName;
                                 D6 = item.DealWith;
                                 R6 = item.Remark;
                                 break;
@@ -240,6 +249,7 @@ namespace Notes
                                 Org7 = item.OrgName;
                                 Name7 = item.Name;
                                 Q7 = item.Question;
+                                C7 = item.DealWithName;
                                 D7 = item.DealWith;
                                 R7 = item.Remark;
                                 break;
@@ -247,6 +257,7 @@ namespace Notes
                                 Org8 = item.OrgName;
                                 Name8 = item.Name;
                                 Q8 = item.Question;
+                                C8 = item.DealWithName;
                                 D8 = item.DealWith;
                                 R8 = item.Remark;
                                 break;
@@ -254,6 +265,7 @@ namespace Notes
                                 Org9 = item.OrgName;
                                 Name9 = item.Name;
                                 Q9 = item.Question;
+                                C9 = item.DealWithName;
                                 D9 = item.DealWith;
                                 R9 = item.Remark;
                                 break;
@@ -350,6 +362,26 @@ namespace Notes
                                         temptext = temptext.Replace("#Q8", Q8);
                                     if (temptext.Contains("#Q9"))
                                         temptext = temptext.Replace("#Q9", Q9);
+                                    if (temptext.Contains("#C0"))
+                                        temptext = temptext.Replace("#C0", C0);
+                                    if (temptext.Contains("#C1"))
+                                        temptext = temptext.Replace("#C1", C1);
+                                    if (temptext.Contains("#C2"))
+                                        temptext = temptext.Replace("#C2", C2);
+                                    if (temptext.Contains("#C3"))
+                                        temptext = temptext.Replace("#C3", C3);
+                                    if (temptext.Contains("#C4"))
+                                        temptext = temptext.Replace("#C4", C4);
+                                    if (temptext.Contains("#C5"))
+                                        temptext = temptext.Replace("#C5", C5);
+                                    if (temptext.Contains("#C6"))
+                                        temptext = temptext.Replace("#C6", C6);
+                                    if (temptext.Contains("#C7"))
+                                        temptext = temptext.Replace("#C7", C7);
+                                    if (temptext.Contains("#C8"))
+                                        temptext = temptext.Replace("#C8", C8);
+                                    if (temptext.Contains("#C9"))
+                                        temptext = temptext.Replace("#C9", C9);
                                     if (temptext.Contains("#D0"))
                                         temptext = temptext.Replace("#D0", D0);
                                     if (temptext.Contains("#D1"))
@@ -428,7 +460,7 @@ namespace Notes
 
         private void Wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            ScriptManager.RegisterClientScriptBlock(this, GetType(), "progressBar", string.Format("$('#MainContent_progressBar').addClass('w-{0}');", e.ProgressPercentage.ToString()), true);
+            int val = e.ProgressPercentage;
         }
 
         private string transWeek(string w)

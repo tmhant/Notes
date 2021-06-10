@@ -62,12 +62,14 @@
                 </span>
             </div>
         </nav>
-        <div class="container-fluid body-content">
+        <div class="container-fluid body-content" style="margin-bottom:50px">
+            <header class="bg-light"><asp:SiteMapPath ID="SiteMapPath1" runat="server"></asp:SiteMapPath></header>
+                <hr />
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
         </div>
         <hr />
-        <footer class="text-center">
+        <footer class="text-center bg-light">
             <p>&copy; <%: DateTime.Now.ToString("yyyy-MM-dd") %> - 我的工作日誌</p>
         </footer>
     </form>

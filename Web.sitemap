@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title="首頁"  description="首頁">
+    <siteMapNode url="~/WorkLog" title="工作日誌"  description="工作日誌" />
+	  <siteMapNode url="#" title="管理"  description="管理">
+		  <siteMapNode url="~/UserMgm" title="使用者"  description="使用者" />
+		  <siteMapNode url="~/WorkLogMgm" title="工作日誌紀錄"  description="工作日誌紀錄" />
+	  </siteMapNode>
+</siteMapNode>
+</siteMap>
