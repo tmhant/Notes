@@ -43,5 +43,30 @@ namespace Notes.WebService
             return (string[])array.ToArray(typeof(string));
 
         }
+
+        public string[] GetOrgList(string prefixText, int count)
+        {
+            //連線字串
+            string connStr = ConfigurationManager.ConnectionStrings["ConnStr"].ToString();
+
+            ArrayList array = new ArrayList();//儲存撈出來的字串集合
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                DataSet ds = new DataSet();
+
+                string selectStr = @"SELECT Top (" + count + ") OrgName FROM Org Where OrgName Like '" + prefixText + "%' Group by Name Order by Name ASC";
+                SqlDataAdapter da = new SqlDataAdapter(selectStr, conn);
+                conn.Open();
+                da.Fill(ds);
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    array.Add(dr["Name"].ToString());
+                }
+
+            }
+
+            return (string[])array.ToArray(typeof(string));
+        }
     }
 }

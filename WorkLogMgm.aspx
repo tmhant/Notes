@@ -33,13 +33,14 @@
                 </div>
                 <hr />
             <div class="text-right">
-                <label for="ddlPageSize">每頁顯示筆數：</label>
+                總筆數：<asp:Label runat="server" ID="total"></asp:Label>
+                <label for="ddlPageSize">　|　每頁顯示筆數：</label>
                 <asp:DropDownList ID="ddlPageSize" runat="server" OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
                     <asp:ListItem>10</asp:ListItem>
                     <asp:ListItem Selected="True">20</asp:ListItem>
                     <asp:ListItem>30</asp:ListItem>
-                    <asp:ListItem>50</asp:ListItem>
                     <asp:ListItem>40</asp:ListItem>
+                    <asp:ListItem>50</asp:ListItem>
                 </asp:DropDownList>
             </div> 
                 <div class="row">

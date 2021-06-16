@@ -18,6 +18,8 @@
     <link href="Content/bootstrap-table.css" rel="stylesheet" />
     <link href="Content/bootstrap-treeview.min.css" rel="stylesheet" />
     <link href="font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="Content/DropDownList2ComboBox.css" rel="stylesheet" />
 </head>
 <body>
     <form runat="server">
@@ -31,6 +33,8 @@
                 <asp:ScriptReference Path="~/Scripts/bootstrap-table.js" />
                 <asp:ScriptReference Path="~/Scripts/bootstrap-treeview.min.js"/>
                 <asp:ScriptReference Path="~/Scripts/chart.min.js"/>
+                <asp:ScriptReference Path="~/Scripts/jquery-ui.min.js"/>
+                <asp:ScriptReference Path="~/Scripts/DropDownList2ComboBox.js"/>
                 <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
                 <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
                 <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />

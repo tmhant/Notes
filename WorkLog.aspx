@@ -51,8 +51,8 @@
             </div>
         </div>
     </div>
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-        <ContentTemplate>
+    <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>--%>
             <div class="container-fluid">
                 <div class="row text-right">
                     <div class="col">
@@ -68,11 +68,10 @@
                         <asp:Panel ID="PopWorkLog" runat="server" Visible="false" Width="100%">
                             <div class="container">
                                 <asp:HiddenField ID="hd_id" runat="server" />
-                                
                                 <div class="row">
                                     <div class="col">
-                                        <label for="ddlOrg">單位：</label>
-                                        <asp:DropDownList ID="ddlOrg" runat="server" DataSourceID="SqlDataSource2" DataTextField="OrgName" DataValueField="Id"></asp:DropDownList>
+                                        <div class="ui-widget"><label for="ddlOrg">單位：</label>
+                                        <asp:DropDownList ID="ddlOrg" runat="server" DataSourceID="SqlDataSource2" DataTextField="OrgName" DataValueField="Id" data-Combo="Y"></asp:DropDownList></div>
                                         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnStr %>" SelectCommand="SELECT * FROM [Org]"></asp:SqlDataSource>
                                         <label for="txtName">名稱：</label>
                                         <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
@@ -184,25 +183,25 @@
                     </div>
                 </div>
             </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
+        <%--</ContentTemplate>
+    </asp:UpdatePanel>--%>
     <script type="text/javascript">
         function confirmMsg() {
             if (confirm("確定要刪除嗎?")) {
                 var id = $('#<%=hd_id.ClientID %>').val();
                 $.ajax({
-                    type: "get",
+            type: "get",
                     url: "Controller/WorkLogController.ashx",
                     contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     dataType: "json",
-                    data: { id: id },
+                    data: {id: id },
                     success: function (response) {
-                        console.log(response);
+            console.log(response);
                         alert('刪除成功!');
                         window.location.href = "WorkLog.aspx";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        alert('刪除失敗!');
+            alert('刪除失敗!');
                     }
                 });
             }
@@ -224,7 +223,7 @@
             queryParamsType: "",
             queryParams: function (params) {
                 return {
-                    pageSize: params.pageSize,//pageSize
+            pageSize: params.pageSize,//pageSize
                     pageNumber: params.pageNumber,//偏移量
                     sortName: params.sortName,//以哪個欄位排序
                     sortOrder: params.sortOrder,//降序還是升序,asc,desc
@@ -232,7 +231,7 @@
                 };
             },
             onClickRow: function (row, $element, field) {
-                $element.addClass('bg-info').siblings().removeClass('bg-info');
+            $element.addClass('bg-info').siblings().removeClass('bg-info');
                 $('#t_id').val(row.Id);
                 $('#tbody').val(row.Tbody);
             },
@@ -243,10 +242,10 @@
                 return "暫無匹配資料.";
             },
             columns: [{
-                field: 'Id',
+            field: 'Id',
                 sortable: true,
             }, {
-                field: 'Tbody',
+            field: 'Tbody',
             }]
         })
 
@@ -259,18 +258,18 @@
             console.log($('#t_id').val());
             console.log($('#tbody').val());
             $.ajax({
-                type: "get",
+            type: "get",
                 url: "Controller/TemplateController.ashx",
                 contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 dataType: "json",
-                data: { Id: $('#t_id').val(), tbody: $('#tbody').val(), IsDeleted: false },
+                data: {Id: $('#t_id').val(), tbody: $('#tbody').val(), IsDeleted: false },
                 success: function (response) {
-                    console.log(response);
+            console.log(response);
                     alert('儲存成功!');
                     $('#template').bootstrapTable('refresh');
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert('儲存失敗!');
+            alert('儲存失敗!');
                     console.log(xhr.fail);
                 }
             });
@@ -280,18 +279,18 @@
         $('#delete').click(function () {
             console.log($('#t_id').val());
             $.ajax({
-                type: "get",
+            type: "get",
                 url: "Controller/TemplateController.ashx",
                 contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 dataType: "json",
-                data: { Id: $('#t_id').val(), tbody: $('#tbody').val(), IsDeleted: true },
+                data: {Id: $('#t_id').val(), tbody: $('#tbody').val(), IsDeleted: true },
                 success: function (response) {
-                    console.log(response);
+            console.log(response);
                     alert('刪除成功!');
                     $('#template').bootstrapTable('refresh');
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert('刪除失敗!');
+            alert('刪除失敗!');
                     console.log(xhr.fail);
                 }
             });

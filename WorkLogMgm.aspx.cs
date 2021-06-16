@@ -30,9 +30,9 @@ namespace Notes
                             SqlDataSource3.SelectCommand = string.Format("Select * From Users Where Id={0}", users.Id);
                             ddlUser.DataSourceID = "SqlDataSource3";
                             ddlUser.DataBind();
-                            SqlDataSource1.SelectCommand = string.Format("Select * From WorkLog Where UserId={0}", users.Id);
-                            gv.DataSourceID = "SqlDataSource1";
-                            gv.DataBind();
+                            //SqlDataSource1.SelectCommand = string.Format("Select * From WorkLog Where UserId={0}", users.Id);
+                            //gv.DataSourceID = "SqlDataSource1";
+                            //gv.DataBind();
                         }
                     }
                 }
@@ -67,9 +67,12 @@ namespace Notes
                 users = ((List<Users>)Session["user"])[0];
                 using (var conn = new SqlConnection(connectionString))
                 {
+                    gv.AllowPaging = false;
                     SqlDataSource1.SelectCommand = "Select * From WorkLog Where IsDeleted = 0";
                     if (ddlUser.SelectedItem != null && ddlUser.SelectedItem.Value != "1")
                         SqlDataSource1.SelectCommand += " And UserId = " + ddlUser.SelectedItem.Value;
+                    if (ddlUser.SelectedItem == null && users.Id != "1")
+                        SqlDataSource1.SelectCommand += " And UserId = " + users.Id;
                     if (!string.IsNullOrEmpty(txtName.Text))
                         SqlDataSource1.SelectCommand += " And Name = '" + txtName.Text.Trim() + "'";
                     if (ddlOrg.SelectedItem != null && ddlOrg.SelectedItem.Value != "0")
@@ -80,6 +83,10 @@ namespace Notes
                         SqlDataSource1.SelectCommand += " And CreateDate <= convert(varchar, '" + txtEdate.Text + "', 111)";
                     gv.DataSourceID = "SqlDataSource1";
                     gv.DataBind();
+
+                    total.Text = gv.Rows.Count.ToString()+ "筆";
+                    gv.AllowPaging = true;
+
                 }
             }
             catch(Exception ex)

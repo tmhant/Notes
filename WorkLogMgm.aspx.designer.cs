@@ -7,13 +7,11 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace Notes
-{
-
-
-    public partial class WorkLogMgm
-    {
-
+namespace Notes {
+    
+    
+    public partial class WorkLogMgm {
+        
         /// <summary>
         /// UpdatePanel1 控制項。
         /// </summary>
@@ -22,7 +20,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
+        
         /// <summary>
         /// ddlUser 控制項。
         /// </summary>
@@ -31,7 +29,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUser;
-
+        
         /// <summary>
         /// SqlDataSource3 控制項。
         /// </summary>
@@ -40,7 +38,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource3;
-
+        
         /// <summary>
         /// txtName 控制項。
         /// </summary>
@@ -49,7 +47,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtName;
-
+        
         /// <summary>
         /// AutoCompleteExtender1 控制項。
         /// </summary>
@@ -58,7 +56,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::AjaxControlToolkit.AutoCompleteExtender AutoCompleteExtender1;
-
+        
         /// <summary>
         /// ddlOrg 控制項。
         /// </summary>
@@ -67,7 +65,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlOrg;
-
+        
         /// <summary>
         /// SqlDataSource2 控制項。
         /// </summary>
@@ -76,7 +74,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource2;
-
+        
         /// <summary>
         /// txtSdate 控制項。
         /// </summary>
@@ -85,7 +83,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSdate;
-
+        
         /// <summary>
         /// txtEdate 控制項。
         /// </summary>
@@ -94,7 +92,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEdate;
-
+        
         /// <summary>
         /// btnQuery 控制項。
         /// </summary>
@@ -103,7 +101,7 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnQuery;
-
+        
         /// <summary>
         /// btnReset 控制項。
         /// </summary>
@@ -112,25 +110,16 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnReset;
-
+        
         /// <summary>
-        /// gv 控制項。
+        /// total 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gv;
-
-        /// <summary>
-        /// SqlDataSource1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
-
+        protected global::System.Web.UI.WebControls.Label total;
+        
         /// <summary>
         /// ddlPageSize 控制項。
         /// </summary>
@@ -139,5 +128,23 @@ namespace Notes
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPageSize;
+        
+        /// <summary>
+        /// gv 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gv;
+        
+        /// <summary>
+        /// SqlDataSource1 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
     }
 }
